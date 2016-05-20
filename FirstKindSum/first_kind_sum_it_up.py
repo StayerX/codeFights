@@ -13,7 +13,7 @@ def first_kind_sum_it_up(n, k, version):
     if version == 3:
         r = kbits3a(n,k,1)
     if version == 4:
-        r = kbits3f(n,k,1)
+        r = kbits3f2(n,k,1)
     if version == 5:
         r = kbits3b(n,k,1)
     if version == 6:
@@ -132,7 +132,7 @@ def kbits3c(n, k, l): # bad
         return l
 
 
-def kbits3f(n, k, l): #best
+def kbits3f(n, k, l):  # another version
     if k == 1:
         return range(1, n + 1)
 
@@ -172,6 +172,58 @@ def kbits3f(n, k, l): #best
         p2 = prod(bit[stable_point:])
         l[it] = p1*p2
         # print "it: " + str(l[it])
+    return l
+
+
+def n2b(n, b):
+    if n == 0:
+        return 0
+    d = []
+    while n:
+        d.append(int(n % b))
+        n /= b
+    return ''.join(map(str,d[::-1]))
+
+def n2bool(n,len):
+    if n == 0:
+        return 0
+    d = []
+    pos = 0
+    while n:
+        d.append(int(n % 2)==1)
+        n /= 2
+    return d[::-1]
+
+
+def kbits3f2(n, k, l):  # another version
+    if k == 1:
+        return range(1, n + 1)
+
+    bits = itertools.combinations(range(1, n + 1), k)  # all the combinations
+    red =
+    prod = lambda bit: reduce(red, bit)  # [1,2,3] => 1*2*3
+
+    N = math.factorial(n) / (math.factorial(k) * math.factorial(n - k))  # combinations
+    l = [1] * N  # pre allocate space for the results
+    stable_point = k-1
+    stable_value = -1
+    mod_point = k - 1 # do not change, stable_point update depends on this
+    for bit in bits:
+        p1 = prod(bit[0:stable_point])
+        stable_value = bit[stable_point]
+        p2 = prod(bit[stable_point:])
+        break
+
+    l[0] = p1 * p2
+    it = 0
+    for bit in bits:
+        it += 1
+        if stable_value != bit[stable_point]:
+            stable_point = mod_point - (mod_point - stable_point + 1) % k
+            p1 = prod(bit[0:stable_point]+(1,))
+            stable_value = bit[stable_point]
+        p2 = prod(bit[stable_point:])
+        l[it] = p1*p2
     return l
 
 
