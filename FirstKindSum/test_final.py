@@ -21,6 +21,10 @@ class MyTestCase(unittest.TestCase):
     def test5(self):
         self.assertEqual(first_kind_sum_it_up(63, 59), "3.05E-76")
 
+    def test6(self):
+        self.assertEqual(first_kind_sum_it_up(999, 999), "2.49E-2565")
+
+
 
 if __name__ == '__main__':
     start = time.clock()

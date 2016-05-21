@@ -2,6 +2,8 @@ import itertools, math, decimal
 d = {}
 
 def first_kind_sum_it_up(n, k):
+    if n > 900 or k > 900 or n < 1 or k < 1:
+        return -1
     r = C(n+1,k+1)
     d = math.factorial(n)*1.0
     res = r/d
